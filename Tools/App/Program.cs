@@ -44,7 +44,7 @@ namespace ET
                     case AppType.ExcelExporter:
                     {
                         Game.Options.Console = 1;
-                        ExcelExporter.Export();
+                        // ExcelExporter.Export();
                         return 0;
                     }
                     case AppType.Proto2CS:

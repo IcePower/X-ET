@@ -41,13 +41,11 @@
             <Link>Base\%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
 
-        <Compile Include="..\..\Unity\Codes\Model\Module\Config\**\*.cs">
-            <Link>Module\Config\%(RecursiveDir)%(FileName)%(Extension)</Link>
-        </Compile>
-
         <Compile Include="..\..\Unity\Codes\Model\Module\Message\OpcodeRangeDefine.cs">
             <Link>Module\Message\OpcodeRangeDefine.cs</Link>
         </Compile>
+        <Compile Remove="..\..\Unity\Codes\Model\Core\LubanLib\**" />
+
     </ItemGroup>
     
     <ItemGroup>

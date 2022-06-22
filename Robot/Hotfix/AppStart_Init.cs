@@ -1,3 +1,6 @@
+using System.IO;
+using Bright.Serialization;
+
 namespace ET
 {
     public class AppStart_Init: AEvent<EventType.AppStart>
@@ -14,7 +17,7 @@ namespace ET
 
             // 加载配置
             Game.Scene.AddComponent<ConfigComponent>();
-            await ConfigComponent.Instance.LoadAsync();
+            ConfigComponent.Instance.Load(configName => new ByteBuf(File.ReadAllBytes($"../LubanConfig/{configName}.bytes")));
             
             Game.Scene.AddComponent<OpcodeTypeComponent>();
             Game.Scene.AddComponent<MessageDispatcherComponent>();

@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using Bright.Serialization;
 using NLog;
 
 namespace ET
@@ -24,8 +26,7 @@ namespace ET
                         Log.Console($"reload config but not find {category}");
                         return;
                     }
-                    ConfigComponent.Instance.LoadOneConfig(type);
-                    Log.Console($"reload config {configName} finish!");
+                    ConfigComponent.Instance.LoadOneConfig(type, configName => new ByteBuf(File.ReadAllBytes($"../LubanConfig/{configName}.bytes")));                    Log.Console($"reload config {configName} finish!");
                     break;
             }
             

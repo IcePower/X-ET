@@ -1,3 +1,6 @@
+using Bright.Serialization;
+using UnityEngine;
+
 namespace ET
 {
     public class AppStart_Init: AEvent<EventType.AppStart>
@@ -16,7 +19,13 @@ namespace ET
             Game.Scene.AddComponent<ResourcesComponent>();
             await ResourcesComponent.Instance.LoadBundleAsync("config.unity3d");
             Game.Scene.AddComponent<ConfigComponent>();
-            ConfigComponent.Instance.Load();
+            
+            ConfigComponent.Instance.Load(configName =>
+            {
+                TextAsset v = ResourcesComponent.Instance.GetAsset("config.unity3d", configName) as TextAsset;
+                return new ByteBuf(v.bytes);
+            });
+            
             ResourcesComponent.Instance.UnloadBundle("config.unity3d");
             
             Game.Scene.AddComponent<OpcodeTypeComponent>();

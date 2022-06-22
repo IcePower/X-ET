@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using Bright.Serialization;
 
 namespace ET
 {
@@ -13,7 +16,7 @@ namespace ET
         private async ETTask RunAsync(EventType.AppStart args)
         {
             Game.Scene.AddComponent<ConfigComponent>();
-            await ConfigComponent.Instance.LoadAsync();
+            ConfigComponent.Instance.Load(configName => new ByteBuf(File.ReadAllBytes($"../LubanConfig/{configName}.bytes")));
 
             StartProcessConfig processConfig = StartProcessConfigCategory.Instance.Get(Game.Options.Process);
 
