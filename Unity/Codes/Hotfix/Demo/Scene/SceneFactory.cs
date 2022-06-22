@@ -11,7 +11,7 @@ namespace ET
             zoneScene.AddComponent<ObjectWait>();
             zoneScene.AddComponent<PlayerComponent>();
             
-            Game.EventSystem.Publish(new EventType.AfterCreateZoneScene() {ZoneScene = zoneScene});
+            Game.EventSystem.PublishAsync(new EventType.AfterCreateZoneScene() {ZoneScene = zoneScene}).Coroutine();
             return zoneScene;
         }
         

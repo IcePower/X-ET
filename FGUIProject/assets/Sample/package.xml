@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="rgfb0w49">
+  <resources>
+    <component id="8omm0" name="SamplePanel.xml" path="/" exported="true"/>
+  </resources>
+  <publish name="" path="../Unity/Assets/Bundles/FUI/Sample" packageCount="2" codePath="../Unity/Codes/ModelView/Demo/FUIAutoGen"/>
+</packageDescription>

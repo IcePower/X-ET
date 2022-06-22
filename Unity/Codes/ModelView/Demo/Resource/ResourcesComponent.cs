@@ -108,6 +108,35 @@ namespace ET
         {
             return value.IntToString().StringToAB();
         }
+        
+        public static string FUIDescToBundleName(this string value)
+        {
+            string result;
+            if (ResourcesComponent.Instance.FUIDescToBundleNameDict.TryGetValue(value, out result))
+            {
+                return result;
+            }
+
+            result = "{0}_fui.unity3d".Fmt(value);
+
+            ResourcesComponent.Instance.FUIDescToBundleNameDict[value] = result;
+            return result;
+        }
+        
+        public static string FUIResToBundleName(this string value)
+        {
+            string result;
+            if (ResourcesComponent.Instance.FUIResToBundleDict.TryGetValue(value, out result))
+            {
+                return result;
+            }
+
+            result = "{0}_res.unity3d".Fmt(value);
+
+            ResourcesComponent.Instance.FUIResToBundleDict[value] = result;
+            return result;
+        }
+        
 
         public static string BundleNameToLower(this string value)
         {
@@ -224,7 +253,16 @@ namespace ET
             parents.RemoveAt(parents.Count - 1);
         }
 
+        public static AssetBundle GetAssetBundle(this ResourcesComponent self, string bundleName)
+        {
+            bundleName = bundleName.BundleNameToLower();
+            if (self.bundles.TryGetValue(bundleName, out ABInfo bundle))
+            {
+                return bundle.AssetBundle;
+            }
 
+            return null;
+        }
 
         public static bool Contains(this ResourcesComponent self, string bundleName)
         {
@@ -537,11 +575,11 @@ namespace ET
             }
             Log.Debug("Async load bundle BundleName : " + p);
 
-            // if (!File.Exists(p))
-            // {
-            //     Log.Error("Async load bundle not exist! BundleName : " + p);
-            //     return null;
-            // }
+            if (!File.Exists(p))
+            {
+                // Log.Error("Async load bundle not exist! BundleName : " + p);
+                return null;
+            }
             assetBundle = await AssetBundleHelper.UnityLoadBundleAsync(p);
             if (assetBundle == null)
             {
@@ -608,6 +646,10 @@ namespace ET
         public Dictionary<int, string> IntToStringDict = new Dictionary<int, string>();
 
         public Dictionary<string, string> StringToABDict = new Dictionary<string, string>();
+        
+        public Dictionary<string, string> FUIDescToBundleNameDict = new Dictionary<string, string>();
+        
+        public Dictionary<string, string> FUIResToBundleDict = new Dictionary<string, string>();
 
         public Dictionary<string, string> BundleNameToLowerDict = new Dictionary<string, string>() { { "StreamingAssets", "StreamingAssets" } };
 

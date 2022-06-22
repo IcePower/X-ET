@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1080,1920">
+  <controller name="c1" alias="TestC1" pages="0,State1,1,State2" selected="0"/>
+  <controller name="c2" pages="0,,1," selected="0"/>
+  <displayList>
+    <component id="n0_ab9e" name="LoginBtn" src="ab9e1" fileName="Components/Button1.xml" pkg="f2boiu4i" xy="284,1296" size="511,119">
+      <Button title="登录" titleColor="#cccccc" titleFontSize="40" icon="ui://f2boiu4iab9e4"/>
+    </component>
+    <component id="n2_ab9e" name="AccountInput" src="ab9e2" fileName="Components/InputField1.xml" pkg="f2boiu4i" xy="360,1008"/>
+    <component id="n3_ab9e" name="PasswordInput" src="ab9e2" fileName="Components/InputField1.xml" pkg="f2boiu4i" xy="360,1136"/>
+    <component id="n5_ab9e" name="button2" src="ab9e1" fileName="Components/Button1.xml" pkg="f2boiu4i" xy="275,583"/>
+    <loader id="n6_ab9e" name="loader1" xy="36,148" size="562,148" url="ui://f2boiu4iab9e4"/>
+    <text id="n7_ab9e" name="Text1" xy="54,345" size="107,64" fontSize="12" autoSize="none" text=""/>
+    <richtext id="n8_ab9e" name="RichText1" xy="46,462" size="40,19" fontSize="12" text=""/>
+    <image id="n13_ab9e" name="image1" src="ab9e4" fileName="Images/Button.png" pkg="f2boiu4i" xy="391,625"/>
+    <graph id="n10_ab9e" name="Graph1" xy="131,601" size="100,100" group="n14_ab9e" type="rect"/>
+    <list id="n11_ab9e" name="List1" xy="90,612" size="200,300" group="n14_ab9e" overflow="scroll"/>
+    <group id="n14_ab9e" name="Group1" xy="90,601" size="200,311"/>
+    <text id="n9_ab9e" name="Input1" xy="77,1124" size="40,19" group="n15_ab9e" fontSize="12" text="" input="true"/>
+    <loader3D id="n12_ab9e" name="Loader3D1" xy="92,1545" size="100,100" group="n15_ab9e" animation="" skin="" loop="true"/>
+    <group id="n15_ab9e" name="Group2" xy="77,1124" size="115,520" advanced="true"/>
+    <loader id="n21_ab9e" name="n21" xy="225,345" size="50,50"/>
+    <component id="n23_v5sy" name="Test2" src="v5syp" fileName="Components/Button2.xml" pkg="f2boiu4i" xy="651,165"/>
+  </displayList>
+</component>

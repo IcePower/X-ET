@@ -113,7 +113,7 @@ namespace ET
             AssemblyBuilder assemblyBuilder = new AssemblyBuilder(dllPath, scripts.ToArray());
             
             //启用UnSafe
-            //assemblyBuilder.compilerOptions.AllowUnsafeCode = true;
+            assemblyBuilder.compilerOptions.AllowUnsafeCode = true;
 
             BuildTargetGroup buildTargetGroup = BuildPipeline.GetBuildTargetGroup(EditorUserBuildSettings.activeBuildTarget);
 
