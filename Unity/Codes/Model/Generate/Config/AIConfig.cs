@@ -22,7 +22,17 @@ public sealed partial class AIConfig: Bright.Config.BeanBase
         Order = _buf.ReadInt();
         Name = _buf.ReadString();
         Desc = _buf.ReadString();
-        {int n = System.Math.Min(_buf.ReadSize(), _buf.Size);NodeParams = new int[n];for(var i = 0 ; i < n ; i++) { int _e;_e = _buf.ReadInt(); NodeParams[i] = _e;}}
+        
+        {
+            int n1 = System.Math.Min(_buf.ReadSize(), _buf.Size);
+            NodeParams = new int[n1];
+            for(var i1 = 0 ; i1 < n1 ; i1++) 
+            { 
+                int _e1;
+                _e1 = _buf.ReadInt(); 
+                NodeParams[i1] = _e1;
+            }
+        }
         PostInit();
     }
 

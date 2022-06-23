@@ -66,3 +66,4 @@ Unity/Unity.ModelView.csproj
 Unity/UserSettings
 Unity.userprefs
 .cache.meta
+~$*.xlsx
