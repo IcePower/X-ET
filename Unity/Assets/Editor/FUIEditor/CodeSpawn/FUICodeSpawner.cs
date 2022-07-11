@@ -199,16 +199,141 @@ namespace FUIEditor
             
             foreach (ComponentInfo componentInfo in ComponentInfos.Values)
             {
-                SpawnCodeComponent(componentInfo);
+                SpawnCodeForComponent(componentInfo);
             }
             
             foreach (var kv in ExportedComponentInfos)
             {
-                SpawnCodeBinder(PackageInfos[kv.Key], kv.Value);
+                SpawnCodeForBinder(PackageInfos[kv.Key], kv.Value);
+            }
+
+            foreach (PackageInfo packageInfo in PackageInfos.Values)
+            {
+                string panelName = "{0}Panel.xml".Fmt(packageInfo.Name);
+                if (packageInfo.PackageComponentInfos.ContainsKey(panelName))
+                {
+                    SpawnCodeForPanelSystem(packageInfo.Name);
+                    SpawnEventHandler(packageInfo.Name);
+                }
             }
         }
+
+        private static void SpawnCodeForPanelSystem(string packageName)
+        {
+            string panelName = "{0}Panel".Fmt(packageName);
+            
+            string filePath = "../Unity/Codes/HotfixView/Demo/FUI/{0}/{1}System.cs".Fmt(packageName, panelName);
+            if (File.Exists(filePath))
+            {
+                Debug.Log("{0} 已经存在".Fmt(filePath));
+                return;
+            }
+            
+            Debug.Log("SpawnCodeForPanelSystem {0}".Fmt(panelName));
+            
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("namespace {0}\n", NameSpace);
+            sb.AppendLine("{");
+            sb.AppendFormat("\tpublic static class {0}System\n", panelName);
+            sb.AppendLine("\t{");
+            
+            sb.AppendFormat("\t\tpublic static void RegisterUIEvent(this {0} self)\n", panelName);
+            sb.AppendLine("\t\t{");
+            sb.AppendLine();
+            sb.AppendLine("\t\t}");
+            
+            sb.AppendLine();
+            sb.AppendFormat("\t\tpublic static void OnShow(this {0} self)\n", panelName);
+            sb.AppendLine("\t\t{");
+            sb.AppendLine();
+            sb.AppendLine("\t\t}");
+            
+            sb.AppendLine();
+            sb.AppendFormat("\t\tpublic static void OnHide(this {0} self)\n", panelName);
+            sb.AppendLine("\t\t{");
+            sb.AppendLine();
+            sb.AppendLine("\t\t}");
+            
+            sb.AppendLine();
+            sb.AppendFormat("\t\tpublic static void BeforeUnload(this {0} self)\n", panelName);
+            sb.AppendLine("\t\t{");
+            sb.AppendLine();
+            sb.AppendLine("\t\t}");
+            
+            sb.AppendLine("\t}");
+            sb.Append("}");
+            
+            using FileStream fs = new FileStream(filePath, FileMode.Create);
+            using StreamWriter sw = new StreamWriter(fs);
+            sw.Write(sb.ToString());
+        }
+
+        private static void SpawnEventHandler(string packageName)
+        {
+            string panelName = "{0}Panel".Fmt(packageName);
+            
+            string filePath = "../Unity/Codes/HotfixView/Demo/FUI/{0}/Event/{0}EventHandler.cs".Fmt(packageName);
+            if (File.Exists(filePath))
+            {
+                Debug.Log("{0} 已经存在".Fmt(filePath));
+                return;
+            }
+            
+            Debug.Log("SpawnEventHandler {0}".Fmt(panelName));
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("namespace {0}\n", NameSpace);
+            sb.AppendLine("{");
+            sb.AppendLine("\t[FriendClass(typeof(PanelCoreData))]");
+            sb.AppendLine("\t[FriendClass(typeof(FUIEntity))]");
+            sb.AppendFormat("\t[FUIEvent(PanelId.{0}, \"{1}\", \"{0}\")]\n", panelName, packageName);
+            sb.AppendFormat("\tpublic class {0}EventHandler: IFUIEventHandler\n", packageName);
+            sb.AppendLine("\t{");
+            
+            sb.AppendFormat("\t\tpublic void OnInitPanelCoreData(FUIEntity fuiEntity)\n");
+            sb.AppendLine("\t\t{");
+            sb.AppendLine("\t\t\tfuiEntity.PanelCoreData.panelType = UIPanelType.Normal;");
+            sb.AppendLine("\t\t}");
+            
+            sb.AppendLine();
+            sb.AppendFormat("\t\tpublic void OnInitComponent(FUIEntity fuiEntity)\n");
+            sb.AppendLine("\t\t{");
+            sb.AppendFormat("\t\t\tfuiEntity.AddComponent<{0}>();\n", panelName);
+            sb.AppendLine("\t\t}");
+
+            sb.AppendLine();
+            sb.AppendFormat("\t\tpublic void OnRegisterUIEvent(FUIEntity fuiEntity)\n");
+            sb.AppendLine("\t\t{");
+            sb.AppendFormat("\t\t\tfuiEntity.GetComponent<{0}>().RegisterUIEvent();\n", panelName);
+            sb.AppendLine("\t\t}");
+            
+            sb.AppendLine();
+            sb.AppendFormat("\t\tpublic void OnShow(FUIEntity fuiEntity)\n");
+            sb.AppendLine("\t\t{");
+            sb.AppendFormat("\t\t\tfuiEntity.GetComponent<{0}>().OnShow();\n", panelName);
+            sb.AppendLine("\t\t}");
+
+            sb.AppendLine();
+            sb.AppendFormat("\t\tpublic void OnHide(FUIEntity fuiEntity)\n");
+            sb.AppendLine("\t\t{");
+            sb.AppendFormat("\t\t\tfuiEntity.GetComponent<{0}>().OnHide();\n", panelName);
+            sb.AppendLine("\t\t}");
+
+            sb.AppendLine();
+            sb.AppendFormat("\t\tpublic void BeforeUnload(FUIEntity fuiEntity)\n");
+            sb.AppendLine("\t\t{");
+            sb.AppendFormat("\t\t\tfuiEntity.GetComponent<{0}>().BeforeUnload();\n", panelName);
+            sb.AppendLine("\t\t}");
+            
+            sb.AppendLine("\t}");
+            sb.Append("}");
+            
+            using FileStream fs = new FileStream(filePath, FileMode.Create);
+            using StreamWriter sw = new StreamWriter(fs);
+            sw.Write(sb.ToString());
+        }
         
-        private static void SpawnCodeBinder(PackageInfo packageInfo, Dictionary<string, ComponentInfo> componentInfos)
+        private static void SpawnCodeForBinder(PackageInfo packageInfo, Dictionary<string, ComponentInfo> componentInfos)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("/** This is an automatically generated class by FUICodeSpawner. Please do not modify it. **/\n");
@@ -245,8 +370,6 @@ namespace FUIEditor
             using FileStream fs = new FileStream(filePath, FileMode.Create);
             using StreamWriter sw = new StreamWriter(fs);
             sw.Write(sb.ToString());
-            
-            Debug.Log(sb.ToString());
         }
 
         private class VariableInfo
@@ -259,7 +382,7 @@ namespace FUIEditor
         private static readonly List<VariableInfo> VariableInfos = new List<VariableInfo>();
         private static readonly List<string> ControllerNames = new List<string>();
         private static readonly Dictionary<string, List<string>> ControllerPageNames = new Dictionary<string, List<string>>();
-        private static void SpawnCodeComponent(ComponentInfo componentInfo)
+        private static void SpawnCodeForComponent(ComponentInfo componentInfo)
         {
             if (!componentInfo.Exported && !ExtralExportURLs.Contains(componentInfo.Url))
             {
