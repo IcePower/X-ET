@@ -167,7 +167,7 @@ namespace ET
                 }
             }
             
-            Timeout().Coroutine();
+            Timeout().NoContext();
             
             long beginTime = TimeInfo.Instance.ServerFrameTime();
 

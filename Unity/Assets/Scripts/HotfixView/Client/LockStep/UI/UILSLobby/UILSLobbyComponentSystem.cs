@@ -16,7 +16,7 @@ namespace ET.Client
             self.enterMap = rc.Get<GameObject>("EnterMap");
             self.enterMap.GetComponent<Button>().onClick.AddListener(() =>
             {
-                self.EnterMap().Coroutine();
+                self.EnterMap().NoContext();
             });
             
             self.replay = rc.Get<GameObject>("Replay").GetComponent<Button>();
@@ -35,7 +35,7 @@ namespace ET.Client
             
             Replay replay = MemoryPackHelper.Deserialize(typeof (Replay), bytes, 0, bytes.Length) as Replay;
             Log.Debug($"start replay: {replay.Snapshots.Count} {replay.FrameInputs.Count} {replay.UnitInfos.Count}");
-            LSSceneChangeHelper.SceneChangeToReplay(self.Root(), replay).Coroutine();
+            LSSceneChangeHelper.SceneChangeToReplay(self.Root(), replay).NoContext();
         }
     }
 }

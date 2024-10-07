@@ -77,7 +77,7 @@ namespace ET
                 self.CancellationToken = cancellationToken;
                 self.Current = aiConfig.Id;
 
-                aaiHandler.Execute(self, aiConfig, cancellationToken).Coroutine();
+                aaiHandler.Execute(self, aiConfig).WithContext(cancellationToken);
                 return;
             }
             

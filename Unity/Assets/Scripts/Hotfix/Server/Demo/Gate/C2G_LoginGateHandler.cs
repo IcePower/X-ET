@@ -41,7 +41,7 @@ namespace ET.Server
                 PlayerRoomComponent playerRoomComponent = player.GetComponent<PlayerRoomComponent>();
                 if (playerRoomComponent.RoomActorId != default)
                 {
-                    CheckRoom(player, session).Coroutine();
+                    CheckRoom(player, session).NoContext();
                 }
                 else
                 {

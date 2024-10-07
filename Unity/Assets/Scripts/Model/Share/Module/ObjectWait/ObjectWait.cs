@@ -83,9 +83,10 @@ namespace ET
             }
         }
         
-        public static async ETTask<T> Wait<T>(this ObjectWait self, ETCancellationToken cancellationToken = null) where T : struct, IWaitType
+        public static async ETTask<T> Wait<T>(this ObjectWait self) where T : struct, IWaitType
         {
             ResultCallback<T> tcs = new ResultCallback<T>();
+            ETCancellationToken cancellationToken = await ETTaskHelper.GetContextAsync<ETCancellationToken>();
             Type type = typeof (T);
             self.Add(type, tcs);
 
@@ -94,52 +95,6 @@ namespace ET
                 self.Notify(new T() { Error = WaitTypeError.Cancel });
             }
 
-            T ret;
-            try
-            {
-                cancellationToken?.Add(CancelAction);
-                ret = await tcs.Task;
-            }
-            finally
-            {
-                cancellationToken?.Remove(CancelAction);    
-            }
-            return ret;
-        }
-
-        public static async ETTask<T> Wait<T>(this ObjectWait self, int timeout, ETCancellationToken cancellationToken = null) where T : struct, IWaitType
-        {
-            ResultCallback<T> tcs = new ResultCallback<T>();
-            Type type = typeof(T);
-            async ETTask WaitTimeout()
-            {
-                await self.Root().GetComponent<TimerComponent>().WaitAsync(timeout, cancellationToken);
-                if (cancellationToken.IsCancel())
-                {
-                    return;
-                }
-                if (tcs.IsDisposed)
-                {
-                    return;
-                }
-                
-                if (!self.tcss.TryGetValue(type, out var tcsList))
-                {
-                    return;
-                }
-                tcsList.Remove(tcs);
-                tcs.SetResult(new T() { Error = WaitTypeError.Timeout });
-            }
-            
-            WaitTimeout().Coroutine();
-            
-            self.Add(type, tcs);
-            
-            void CancelAction()
-            {
-                self.Notify(new T() { Error = WaitTypeError.Cancel });
-            }
-            
             T ret;
             try
             {

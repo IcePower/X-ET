@@ -29,12 +29,12 @@ namespace ET.Client
             
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                self.Test1().Coroutine();
+                self.Test1().NoContext();
             }
                 
             if (Input.GetKeyDown(KeyCode.W))
             {
-                self.Test2().Coroutine();
+                self.Test2().NoContext();
             }
 
             if (Input.GetKeyDown(KeyCode.R))
@@ -43,10 +43,15 @@ namespace ET.Client
                 return;
             }
 
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                self.TestCancelAfter().WithContext(new ETCancellationToken());
+            }
+
             if (Input.GetKeyDown(KeyCode.T))
             {
                 C2M_TransferMap c2MTransferMap = C2M_TransferMap.Create();
-                self.Root().GetComponent<ClientSenderComponent>().Call(c2MTransferMap).Coroutine();
+                self.Root().GetComponent<ClientSenderComponent>().Call(c2MTransferMap).NoContext();
             }
         }
         
@@ -63,12 +68,32 @@ namespace ET.Client
             
         private static async ETTask Test2(this OperaComponent self)
         {
+            ETCancellationToken oldCancellationToken = await ETTaskHelper.GetContextAsync<ETCancellationToken>();
             Log.Debug($"Croutine 2 start2");
             using (await self.Root().GetComponent<CoroutineLockComponent>().Wait(1, 20000, 3000))
             {
                 await self.Root().GetComponent<TimerComponent>().WaitAsync(1000);
             }
             Log.Debug($"Croutine 2 end2");
+        }
+        
+        private static async ETTask TestCancelAfter(this OperaComponent self)
+        {
+            ETCancellationToken oldCancellationToken = await ETTaskHelper.GetContextAsync<ETCancellationToken>();
+            
+            Log.Debug($"TestCancelAfter start");
+            ETCancellationToken newCancellationToken = new();
+            await self.Root().GetComponent<TimerComponent>().WaitAsync(3000).TimeoutAsync(newCancellationToken, 1000);
+            if (newCancellationToken.IsCancel())
+            {
+                Log.Debug($"TestCancelAfter newCancellationToken is cancel!");
+            }
+            
+            if (oldCancellationToken != null && !oldCancellationToken.IsCancel())
+            {
+                Log.Debug($"TestCancelAfter oldCancellationToken is not cancel!");
+            }
+            Log.Debug($"TestCancelAfter end");
         }
     }
 }

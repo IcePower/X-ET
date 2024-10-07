@@ -49,7 +49,7 @@ namespace ET
 
         // 5. AwaitOnCompleted
         [DebuggerHidden]
-        public void AwaitOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) where TAwaiter : INotifyCompletion where TStateMachine : IAsyncStateMachine
+        public void AwaitOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine) where TAwaiter : class, IETTask, INotifyCompletion where TStateMachine : IAsyncStateMachine
         {
             this.iStateMachineWrap ??= StateMachineWrap<TStateMachine>.Fetch(ref stateMachine);
             awaiter.OnCompleted(this.iStateMachineWrap.MoveNext);
@@ -62,6 +62,19 @@ namespace ET
         {
             this.iStateMachineWrap ??= StateMachineWrap<TStateMachine>.Fetch(ref stateMachine);
             awaiter.UnsafeOnCompleted(this.iStateMachineWrap.MoveNext);
+
+            if (awaiter is not IETTask task)
+            {
+                return;
+            }
+
+            if (this.tcs.TaskType == TaskType.WithContext)
+            {
+                task.SetContext(this.tcs.Context);
+                return;
+            }
+            
+            this.tcs.Context = task;
         }
 
         // 7. Start
@@ -135,6 +148,19 @@ namespace ET
         {
             this.iStateMachineWrap ??= StateMachineWrap<TStateMachine>.Fetch(ref stateMachine);
             awaiter.UnsafeOnCompleted(this.iStateMachineWrap.MoveNext);
+            
+            if (awaiter is not IETTask task)
+            {
+                return;
+            }
+            
+            if (this.tcs.TaskType == TaskType.WithContext)
+            {
+                task.SetContext(this.tcs.Context);
+                return;
+            }
+            
+            this.tcs.Context = task;
         }
 
         // 7. Start

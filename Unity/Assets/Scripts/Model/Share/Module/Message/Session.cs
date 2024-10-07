@@ -75,7 +75,7 @@ namespace ET
             action.SetResult(response);
         }
         
-        public static async ETTask<IResponse> Call(this Session self, IRequest request, ETCancellationToken cancellationToken)
+        public static async ETTask<IResponse> Call(this Session self, IRequest request)
         {
             int rpcId = ++self.RpcId;
             RpcInfo rpcInfo = new(request.GetType());
@@ -97,6 +97,7 @@ namespace ET
                 action.SetResult(response);
             }
 
+            ETCancellationToken cancellationToken = await ETTaskHelper.GetContextAsync<ETCancellationToken>();
             IResponse ret;
             try
             {
@@ -136,7 +137,7 @@ namespace ET
                     action.SetException(new Exception($"session call timeout: {action.RequestType.FullName} {time}"));
                 }
                 
-                Timeout().Coroutine();
+                Timeout().NoContext();
             }
 
             return await rpcInfo.Wait();

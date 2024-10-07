@@ -19,7 +19,7 @@
             
             foreach (int fiberId in self.robots)
             {
-                Remove(fiberId).Coroutine();
+                Remove(fiberId).NoContext();
             }
         }
 

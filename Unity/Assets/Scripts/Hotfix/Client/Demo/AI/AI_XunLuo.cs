@@ -14,7 +14,7 @@ namespace ET.Client
             return 1;
         }
 
-        public override async ETTask Execute(AIComponent aiComponent, AIConfig aiConfig, ETCancellationToken cancellationToken)
+        public override async ETTask Execute(AIComponent aiComponent, AIConfig aiConfig)
         {
             Scene root = aiComponent.Root();
 
@@ -30,7 +30,9 @@ namespace ET.Client
             {
                 XunLuoPathComponent xunLuoPathComponent = myUnit.GetComponent<XunLuoPathComponent>();
                 float3 nextTarget = xunLuoPathComponent.GetCurrent();
-                await myUnit.MoveToAsync(nextTarget, cancellationToken);
+                await myUnit.MoveToAsync(nextTarget);
+
+                ETCancellationToken cancellationToken = await ETTaskHelper.GetContextAsync<ETCancellationToken>();
                 if (cancellationToken.IsCancel())
                 {
                     return;

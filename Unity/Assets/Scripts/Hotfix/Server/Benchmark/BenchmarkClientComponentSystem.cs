@@ -12,7 +12,7 @@ namespace ET.Server
         {
             for (int i = 0; i < 2; ++i)
             {
-                self.Start().Coroutine();
+                self.Start().NoContext();
             }
         }
 

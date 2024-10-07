@@ -13,7 +13,7 @@ namespace ET
         [EntitySystem]
         private static void Awake(this ConsoleComponent self)
         {
-            self.Start().Coroutine();
+            self.Start().NoContext();
         }
 
         

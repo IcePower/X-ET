@@ -8,7 +8,7 @@ namespace ET
 	{
 		private void Start()
 		{
-			this.StartAsync().Coroutine();
+			this.StartAsync().NoContext();
 		}
 		
 		private async ETTask StartAsync()
