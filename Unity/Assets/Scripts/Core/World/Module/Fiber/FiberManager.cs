@@ -75,22 +75,27 @@ namespace ET
                 
                 TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
 
-                fiber.ThreadSynchronizationContext.Post(async () =>
+                fiber.ThreadSynchronizationContext.Post(() =>
+                {
+                    Action().NoContext();
+                });
+
+                await tcs.Task;
+                return fiberId;
+
+                async ETTask Action()
                 {
                     try
                     {
                         // 根据Fiber的SceneType分发Init,必须在Fiber线程中执行
-                        await EventSystem.Instance.Invoke<FiberInit, ETTask>((long)sceneType, new FiberInit() {Fiber = fiber});
+                        await EventSystem.Instance.Invoke<FiberInit, ETTask>((long)sceneType, new FiberInit() { Fiber = fiber });
                         tcs.SetResult(true);
                     }
                     catch (Exception e)
                     {
                         Log.Error($"init fiber fail: {sceneType} {e}");
                     }
-                });
-
-                await tcs.Task;
-                return fiberId;
+                }
             }
             catch (Exception e)
             {
