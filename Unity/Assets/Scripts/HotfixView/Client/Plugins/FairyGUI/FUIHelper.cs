@@ -49,7 +49,7 @@ namespace ET.Client
                     return;
                 }
 
-                ClickActionAsync().Coroutine();
+                ClickActionAsync().NoContext();
             });
         }
         
@@ -69,7 +69,7 @@ namespace ET.Client
                     return;
                 }
 
-                ClickActionAsync().Coroutine();
+                ClickActionAsync().NoContext();
             });
         }
         
@@ -89,7 +89,7 @@ namespace ET.Client
                     return;
                 }
 
-                ClickActionAsync().Coroutine();
+                ClickActionAsync().NoContext();
             });
         }
         
@@ -109,7 +109,7 @@ namespace ET.Client
                     return;
                 }
 
-                ClickActionAsync().Coroutine();
+                ClickActionAsync().NoContext();
             });
         }
 
@@ -169,7 +169,7 @@ namespace ET.Client
                     return;
                 }
 
-                ClickActionAsync(context).Coroutine();
+                ClickActionAsync(context).NoContext();
             });
         }
 
@@ -189,7 +189,7 @@ namespace ET.Client
                     return;
                 }
 
-                ClickActionAsync(context).Coroutine();
+                ClickActionAsync(context).NoContext();
             });
         }
         
@@ -209,7 +209,7 @@ namespace ET.Client
                     return;
                 }
 
-                ClickActionAsync(context).Coroutine();
+                ClickActionAsync(context).NoContext();
             });
         }
         
@@ -229,7 +229,7 @@ namespace ET.Client
                     return;
                 }
 
-                ClickActionAsync(context).Coroutine();
+                ClickActionAsync(context).NoContext();
             });
         }
 

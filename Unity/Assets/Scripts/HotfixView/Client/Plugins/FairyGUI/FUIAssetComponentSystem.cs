@@ -17,17 +17,17 @@ namespace ET.Client
             
             void LoadUIPackageAsyncHandler(string packageName, LoadUIPackageBytesCallback callback)
             {
-                self.LoadUIPackageAsyncInner(packageName, callback).Coroutine();
+                self.LoadUIPackageAsyncInner(packageName, callback).NoContext();
             }
 
             void LoadTextureAsyncHandler(string packageName, string assetName, string extension, LoadTextureCallback callback)
             {
-                self.LoadTextureAsyncInner(assetName, callback).Coroutine();
+                self.LoadTextureAsyncInner(assetName, callback).NoContext();
             }
 
             void LoadAudioClipAsyncHandler(string packageName, string assetName, string extension, LoadAudioClipCallback callback)
             {
-                self.LoadAudioClipAsyncInner(assetName, callback).Coroutine();
+                self.LoadAudioClipAsyncInner(assetName, callback).NoContext();
             }
 
             self.Locations = new Dictionary<int, string>();

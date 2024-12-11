@@ -22,7 +22,7 @@ namespace ET.Client
             LoginHelper.Login(
                 self.Root(), 
                 self.FUILoginPanel.AccountInput.Input.text,
-                self.FUILoginPanel.PasswordInput.Input.text).Coroutine();
+                self.FUILoginPanel.PasswordInput.Input.text).NoContext();
         }
     }
 }
