@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="270,75" bgColorEnabled="true" bgColor="#383838">
+  <displayList>
+    <text id="n1_edka" name="n1" xy="4,7" size="71,19" fontSize="12" color="#bdbdbd" align="center" autoSize="none" text="描边透明度"/>
+    <component id="n0_edka" name="outlineAlphaCombo" src="gcza18" fileName="ComboBox/ComboBox.xml" pkg="nk9ejx23" xy="88,7" size="166,20">
+      <ComboBox title="None" visibleItemCount="10">
+        <item title="None"/>
+        <item title="1" value="1"/>
+        <item title="2" value="2"/>
+        <item title="3" value="3"/>
+        <item title="4" value="4"/>
+      </ComboBox>
+    </component>
+    <text id="n5_r9wf" name="n5" xy="4,38" size="71,19" fontSize="12" color="#bdbdbd" align="center" autoSize="none" text="描边类型"/>
+    <component id="n6_r9wf" name="outlineTypeCombo" src="gcza18" fileName="ComboBox/ComboBox.xml" pkg="nk9ejx23" xy="88,38" size="166,20">
+      <ComboBox title="None" visibleItemCount="10">
+        <item title="None"/>
+        <item title="1" value="1"/>
+        <item title="2" value="2"/>
+        <item title="3" value="3"/>
+        <item title="4" value="4"/>
+      </ComboBox>
+    </component>
+  </displayList>
+</component>

@@ -1,4 +1,9 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using ET.Client;
+using FairyGUI;
+using FairyGUIEditor;
+using FUIEditor;
 using UnityEditor;
 using UnityEngine;
 using YooAsset;
@@ -14,7 +19,7 @@ namespace ET
         MacOS,
         Linux
     }
-    
+
     public enum ConfigFolder
     {
         Localhost,
@@ -45,10 +50,49 @@ namespace ET
 
         private GlobalConfig globalConfig;
 
+        private bool loaded = false;
+        private List<string> packageNameList = new();
+        private string[] packageNames = { };
+        private int packageIndex = 0;
+
         [MenuItem("ET/Build Tool", false, ETMenuItemPriority.BuildTool)]
         public static void ShowWindow()
         {
             GetWindow<BuildEditor>(DockDefine.Types);
+        }
+
+        private void LoadPackages()
+        {
+            if (Application.isPlaying || loaded)
+            {
+                return;
+            }
+
+            loaded = true;
+
+            EditorToolSet.ReloadPackages();
+
+            packageNameList.Clear();
+            packageNameList.Add("全部导出");
+            List<UIPackage> pkgs = UIPackage.GetPackages();
+            int cnt = pkgs.Count;
+            for (int i = 0; i < cnt; i++)
+            {
+                packageNameList.Add(pkgs[i].name);
+            }
+
+            packageNames = packageNameList.ToArray();
+        }
+
+        private void ReloadPackages()
+        {
+            if (!Application.isPlaying)
+            {
+                loaded = false;
+                LoadPackages();
+            }
+            else
+                EditorUtility.DisplayDialog("FairyGUI", "Cannot run in play mode.", "OK");
         }
 
         private void OnEnable()
@@ -73,6 +117,8 @@ namespace ET
 
         private void OnGUI()
         {
+            LoadPackages();
+
             EditorGUILayout.LabelField("PlatformType ");
             this.platformType = (PlatformType)EditorGUILayout.EnumPopup(platformType);
 
@@ -103,7 +149,9 @@ namespace ET
 
                 if (platformType != activePlatform)
                 {
-                    switch (EditorUtility.DisplayDialogComplex("Warning!", $"current platform is {activePlatform}, if change to {platformType}, may be take a long time", "change", "cancel", "no change"))
+                    switch (EditorUtility.DisplayDialogComplex("Warning!",
+                                $"current platform is {activePlatform}, if change to {platformType}, may be take a long time", "change", "cancel",
+                                "no change"))
                     {
                         case 0:
                             activePlatform = platformType;
@@ -119,10 +167,17 @@ namespace ET
                 BuildHelper.Build(this.platformType, this.buildOptions);
                 return;
             }
-            
+
+            if (GUILayout.Button("Proto2CS"))
+            {
+                ToolsEditor.Proto2CS();
+                return;
+            }
+
             EditorGUILayout.BeginHorizontal();
             {
                 this.configFolder = (ConfigFolder)EditorGUILayout.EnumPopup(this.configFolder, GUILayout.Width(200f));
+
                 if (GUILayout.Button("ExcelExporter"))
                 {
                     ToolsEditor.ExcelExporter(globalConfig.CodeMode, this.configFolder);
@@ -142,13 +197,36 @@ namespace ET
 
             GUILayout.Space(5);
 
-            if (GUILayout.Button("Proto2CS"))
-            {
-                ToolsEditor.Proto2CS();
-                return;
-            }
+            // FairyGUI
+            GUILayout.Label("");
+            GUILayout.Label("FairyGUI");
 
             GUILayout.Space(5);
+            EditorGUILayout.BeginHorizontal();
+            {
+                packageIndex = EditorGUILayout.Popup("选择要导出的包名", packageIndex, packageNames, GUILayout.Width(300f));
+
+                if (GUILayout.Button("FUI代码生成"))
+                {
+                    if (packageIndex == 0)
+                    {
+                        FUICodeSpawner.FUICodeSpawn(packageNames);
+                    }
+                    else
+                    {
+                        FUICodeSpawner.FUICodeSpawn(packageNames[packageIndex], packageNames);
+                    }
+
+                    ShowNotification(new GUIContent("FUI代码生成成功！"));
+                }
+
+                // 导出新包后，刷新包名。
+                if (GUILayout.Button("刷新"))
+                {
+                    ReloadPackages();
+                }
+            }
+            EditorGUILayout.EndHorizontal();
         }
     }
 }

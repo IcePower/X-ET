@@ -12,6 +12,8 @@ namespace ET.Client
             GlobalComponent globalComponent = root.AddComponent<GlobalComponent>();
             root.AddComponent<UIGlobalComponent>();
             root.AddComponent<UIComponent>();
+            root.AddComponent<FUIComponent>();
+            root.AddComponent<FUIAssetComponent, bool>(false);
             root.AddComponent<ResourcesLoaderComponent>();
             root.AddComponent<PlayerComponent>();
             root.AddComponent<CurrentScenesComponent>();
@@ -21,6 +23,8 @@ namespace ET.Client
             root.SceneType = sceneType;
             
             await EventSystem.Instance.PublishAsync(root, new AppStartInitFinish());
+            
+            await root.GetComponent<FUIComponent>().ShowPanelAsync<LoginPanel>();
         }
     }
 }

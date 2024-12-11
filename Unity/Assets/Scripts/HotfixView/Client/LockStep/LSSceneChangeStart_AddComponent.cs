@@ -10,6 +10,8 @@ namespace ET.Client
             Room room = clientScene.GetComponent<Room>();
             ResourcesLoaderComponent resourcesLoaderComponent = room.AddComponent<ResourcesLoaderComponent>();
             room.AddComponent<UIComponent>();
+            room.AddComponent<FUIComponent>();
+            room.AddComponent<FUIAssetComponent, bool>(false);
             
             // 创建loading界面
             

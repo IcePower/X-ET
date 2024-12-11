@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="360,71">
+  <displayList>
+    <image id="n4_jfzh" name="n4" src="jfzh3" fileName="Images/InputBg.png" xy="0,0" size="360,71"/>
+    <text id="n1_ab9e" name="Input" xy="0,0" size="360,71" fontSize="40" align="center" vAlign="middle" autoSize="none" text="" input="true"/>
+  </displayList>
+</component>
