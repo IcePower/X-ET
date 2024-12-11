@@ -19,6 +19,7 @@ namespace ET
         {
             Id = _buf.ReadInt();
             DBConnection = _buf.ReadString();
+            ZoneType = _buf.ReadInt();
             DBName = _buf.ReadString();
             Desc = _buf.ReadString();
             PostInit();
@@ -38,6 +39,10 @@ namespace ET
         /// </summary>
         public readonly string DBConnection;
         /// <summary>
+        /// 分区类型
+        /// </summary>
+        public readonly int ZoneType;
+        /// <summary>
         /// 数据库名
         /// </summary>
         public readonly string DBName;
@@ -55,6 +60,7 @@ namespace ET
             
             
             
+            
             PostResolve();
         }
     
@@ -63,6 +69,7 @@ namespace ET
             return "{ "
             + "Id:" + Id + ","
             + "DBConnection:" + DBConnection + ","
+            + "ZoneType:" + ZoneType + ","
             + "DBName:" + DBName + ","
             + "Desc:" + Desc + ","
             + "}";
