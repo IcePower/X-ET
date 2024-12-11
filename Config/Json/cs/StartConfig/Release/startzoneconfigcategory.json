@@ -1,0 +1,30 @@
+[
+  {
+    "Id": 1,
+    "DBConnection": "mongodb://192.168.50.111",
+    "ZoneType": 1,
+    "DBName": "ET_DEV",
+    "Desc": "游戏区"
+  },
+  {
+    "Id": 2,
+    "DBConnection": "",
+    "ZoneType": 0,
+    "DBName": "",
+    "Desc": "机器人区"
+  },
+  {
+    "Id": 3,
+    "DBConnection": "",
+    "ZoneType": 0,
+    "DBName": "",
+    "Desc": "路由区"
+  },
+  {
+    "Id": 1000,
+    "DBConnection": "mongodb://192.168.50.111",
+    "ZoneType": 0,
+    "DBName": "ET1000",
+    "Desc": "账号登录服"
+  }
+]
