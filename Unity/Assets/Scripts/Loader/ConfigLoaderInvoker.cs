@@ -1,16 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Luban;
 using UnityEngine;
 
 namespace ET
 {
     [Invoke]
-    public class GetAllConfigBytes: AInvokeHandler<ConfigLoader.GetAllConfigBytes, ETTask<Dictionary<Type, byte[]>>>
+    public class GetAllConfigBytes: AInvokeHandler<ConfigLoader.GetAllConfigBytes, ETTask<Dictionary<Type, ByteBuf>>>
     {
-        public override async ETTask<Dictionary<Type, byte[]>> Handle(ConfigLoader.GetAllConfigBytes args)
+        public override async ETTask<Dictionary<Type, ByteBuf>> Handle(ConfigLoader.GetAllConfigBytes args)
         {
-            Dictionary<Type, byte[]> output = new Dictionary<Type, byte[]>();
+            Dictionary<Type, ByteBuf> output = new Dictionary<Type, ByteBuf>();
             HashSet<Type> configTypes = CodeTypes.Instance.GetTypes(typeof (ConfigAttribute));
             
             if (Define.IsEditor)
@@ -44,21 +45,24 @@ namespace ET
                     string configFilePath;
                     if (startConfigs.Contains(configType.Name))
                     {
-                        configFilePath = $"../Config/Excel/{ct}/{Options.Instance.StartConfig}/{configType.Name}.bytes";    
+                        configFilePath = $"../Config/Excel/{ct}/{Options.Instance.StartConfig}/{configType.Name}.bytes";
                     }
                     else
                     {
-                        configFilePath = $"../Config/Excel/{ct}/{configType.Name}.bytes";
+                        configFilePath = $"../Config/Excel/{ct}/GameConfig/{configType.Name}.bytes";
                     }
-                    output[configType] = File.ReadAllBytes(configFilePath);
+                    output[configType] = new ByteBuf(File.ReadAllBytes(configFilePath));
                 }
             }
             else
             {
                 foreach (Type type in configTypes)
                 {
-                    TextAsset v = await ResourcesComponent.Instance.LoadAssetAsync<TextAsset>($"Assets/Bundles/Config/{type.Name}.bytes");
-                    output[type] = v.bytes;
+                    // TextAsset v = await ResourcesComponent.Instance.LoadAssetAsync<TextAsset>($"Assets/Bundles/Config/{type.Name}.bytes");
+                    // output[type] = v.bytes;
+
+                    TextAsset textAsset = await ResourcesComponent.Instance.LoadAssetAsync<TextAsset>(type.Name);
+                    output[type] = new ByteBuf(textAsset.bytes);
                 }
             }
 

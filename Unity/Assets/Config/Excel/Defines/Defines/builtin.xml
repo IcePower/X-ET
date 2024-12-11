@@ -1,0 +1,29 @@
+<module name="">
+    <bean name="vector2" valueType="1" sep=",">
+        <var name="x" type="float"/>
+        <var name="y" type="float"/>
+        <mapper target="client,server,all" codeTarget="cs-bin">
+            <option name="type" value="Unity.Mathematics.float2"/>
+            <option name="constructor" value="LubanHelper.Vector3ToFloat2"/>
+        </mapper>
+    </bean>
+    <bean name="vector3" valueType="1" sep=",">
+        <var name="x" type="float"/>
+        <var name="y" type="float"/>
+        <var name="z" type="float"/>
+        <mapper target="client,server,all" codeTarget="cs-bin">
+            <option name="type" value="Unity.Mathematics.float3"/>
+            <option name="constructor" value="LubanHelper.Vector3ToFloat3"/>
+        </mapper>
+    </bean>
+    <bean name="vector4" valueType="1" sep=",">
+        <var name="x" type="float"/>
+        <var name="y" type="float"/>
+        <var name="z" type="float"/>
+        <var name="w" type="float"/>
+        <mapper target="client,server,all" codeTarget="cs-bin">
+            <option name="type" value="Unity.Mathematics.float4"/>
+            <option name="constructor" value="LubanHelper.Vector3ToFloat4"/>
+        </mapper>
+    </bean>
+</module>

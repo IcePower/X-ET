@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Luban;
 #if DOTNET || UNITY_STANDALONE
 using System.Threading.Tasks;
 #endif
@@ -11,6 +12,8 @@ namespace ET
     /// </summary>
     public class ConfigLoader : Singleton<ConfigLoader>, ISingletonAwake
     {
+        private readonly Dictionary<string, IConfigSingleton> allConfig = new Dictionary<string, IConfigSingleton>(20);
+
         public struct GetAllConfigBytes
         {
         }
@@ -26,21 +29,27 @@ namespace ET
 
         public async ETTask Reload(Type configType)
         {
+            this.allConfig.TryGetValue(configType.Name, out IConfigSingleton oneConfig);
+            if (oneConfig != null)
+            {
+                (oneConfig as ASingleton)?.Dispose();
+            }
+            
             GetOneConfigBytes getOneConfigBytes = new() { ConfigName = configType.Name };
-            byte[] oneConfigBytes = await EventSystem.Instance.Invoke<GetOneConfigBytes, ETTask<byte[]>>(getOneConfigBytes);
+            ByteBuf oneConfigBytes = await EventSystem.Instance.Invoke<GetOneConfigBytes, ETTask<ByteBuf>>(getOneConfigBytes);
             LoadOneConfig(configType, oneConfigBytes);
         }
 
         public async ETTask LoadAsync()
         {
-            Dictionary<Type, byte[]> configBytes = await EventSystem.Instance.Invoke<GetAllConfigBytes, ETTask<Dictionary<Type, byte[]>>>(new GetAllConfigBytes());
+            Dictionary<Type, ByteBuf> configBytes = await EventSystem.Instance.Invoke<GetAllConfigBytes, ETTask<Dictionary<Type, ByteBuf>>>(new GetAllConfigBytes());
 
 #if DOTNET || UNITY_STANDALONE
             using ListComponent<Task> listTasks = ListComponent<Task>.Create();
 
             foreach (Type type in configBytes.Keys)
             {
-                byte[] oneConfigBytes = configBytes[type];
+                ByteBuf oneConfigBytes = configBytes[type];
                 Task task = Task.Run(() => LoadOneConfig(type, oneConfigBytes));
                 listTasks.Add(task);
             }
@@ -52,13 +61,21 @@ namespace ET
                 LoadOneConfig(type, configBytes[type]);
             }
 #endif
+            
+            foreach (IConfigSingleton category in this.allConfig.Values)
+            {
+                category.Resolve(allConfig);
+            }
         }
 
-        private static void LoadOneConfig(Type configType, byte[] oneConfigBytes)
+        private void LoadOneConfig(Type configType, ByteBuf oneConfigBytes)
         {
-            object category = MongoHelper.Deserialize(configType, oneConfigBytes, 0, oneConfigBytes.Length);
+            object category = Activator.CreateInstance(configType, oneConfigBytes);
             ASingleton singleton = category as ASingleton;
             World.Instance.AddSingleton(singleton);
+            
+            this.allConfig[configType.Name] = category as IConfigSingleton;
+
         }
     }
 }

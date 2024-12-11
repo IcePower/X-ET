@@ -1,0 +1,9 @@
+<module name="">
+    <table name="AIConfigCategory" value="AIConfig" readSchemaFromFile="1" input="AIConfig.xlsx"/>
+    <table name="UnitConfigCategory" value="UnitConfig" readSchemaFromFile="1" input="UnitConfig.xlsx"/>
+    
+    <table name="LocalizeConfig_Excel_CHSCategory" value="LocalizeConfig_CHS" readSchemaFromFile="0" input="LocalizeConfig_Excel.csv" group="c"/>
+    <table name="LocalizeConfig_Excel_CHTCategory" value="LocalizeConfig_CHT" readSchemaFromFile="0" input="LocalizeConfig_Excel.csv" group="c"/>
+    <table name="LocalizeConfig_Excel_ENCategory" value="LocalizeConfig_EN" readSchemaFromFile="0" input="LocalizeConfig_Excel.csv" group="c"/>
+    
+</module>

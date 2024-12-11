@@ -1,0 +1,19 @@
+<module name="">
+    <bean name="ALocalizeConfig">
+        <var name="key" type="string"/>
+
+        <bean name="LocalizeConfig_CHS">
+            <var name="TextCHS" type="string"/>
+        </bean>
+
+        <bean name="LocalizeConfig_CHT">
+            <var name="TextCHT" type="string"/>
+        </bean>
+
+        <bean name="LocalizeConfig_EN">
+            <var name="TextEN" type="string"/>
+        </bean>
+    </bean>
+
+</module>
+       

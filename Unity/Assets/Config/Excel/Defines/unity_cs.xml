@@ -1,0 +1,10 @@
+<module name="unity_cs">
+
+    <externaltype name="math_vector3" origin_type_name="vector3">
+        <mapper lan="cs" selector="unity_cs">
+            <target_type_name>Unity.Mathematics.float3</target_type_name>
+            <create_external_object_function>LubanHelper.Vector3ToFloat3</create_external_object_function>
+        </mapper>
+    </externaltype>
+
+</module>
