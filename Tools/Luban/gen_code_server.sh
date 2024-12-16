@@ -10,7 +10,7 @@ CONFIG_FOLDER=$1
   
 #Server
 echo =====================================================================================================
-echo ======================= ClientServer GameConfig ==========================
+echo ======================= Server GameConfig ==========================
 /usr/local/share/dotnet/dotnet ${GEN_CLIENT} \
  --customTemplateDir CustomTemplate \
  --conf $CONF_ROOT/Defines/__luban__.conf \
@@ -28,7 +28,7 @@ if [ $? -eq 1 ]; then
 fi
 
 echo =====================================================================================================
-echo ======================= ClientServer StartConfig ${CONFIG_FOLDER} ==========================
+echo ======================= Server StartConfig ${CONFIG_FOLDER} ==========================
 /usr/local/share/dotnet/dotnet ${GEN_CLIENT} \
  --customTemplateDir CustomTemplate \
  --conf ${CONF_ROOT}/Datas/StartConfig/${CONFIG_FOLDER}/__luban__.conf \
