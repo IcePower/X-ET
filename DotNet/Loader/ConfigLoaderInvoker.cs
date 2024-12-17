@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Luban;
 
 namespace ET
 {
     [Invoke]
-    public class GetAllConfigBytes: AInvokeHandler<ConfigLoader.GetAllConfigBytes, ETTask<Dictionary<Type, byte[]>>>
+    public class GetAllConfigBytes: AInvokeHandler<ConfigLoader.GetAllConfigBytes, ETTask<Dictionary<Type, ByteBuf>>>
     {
-        public override async ETTask<Dictionary<Type, byte[]>> Handle(ConfigLoader.GetAllConfigBytes args)
+        public override async ETTask<Dictionary<Type, ByteBuf>> Handle(ConfigLoader.GetAllConfigBytes args)
         {
-            Dictionary<Type, byte[]> output = new Dictionary<Type, byte[]>();
+            Dictionary<Type, ByteBuf> output = new Dictionary<Type, ByteBuf>();
             List<string> startConfigs = new List<string>()
             {
                 "StartMachineConfigCategory", 
@@ -27,9 +28,9 @@ namespace ET
                 }
                 else
                 {
-                    configFilePath = $"../Config/Excel/s/{configType.Name}.bytes";
+                    configFilePath = $"../Config/Excel/s/GameConfig/{configType.Name}.bytes";
                 }
-                output[configType] = File.ReadAllBytes(configFilePath);
+                output[configType] = new ByteBuf(File.ReadAllBytes(configFilePath));
             }
 
             await ETTask.CompletedTask;

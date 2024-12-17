@@ -6,8 +6,10 @@ namespace ET
 {
     public static class ShellHelper
     {
-        public static void Run(string cmd, string workDirectory, List<string> environmentVars = null)
+        public static bool Run(string cmd, string workDirectory, List<string> environmentVars = null)
         {
+            bool isSuccess = true;
+            
             System.Diagnostics.Process process = new();
             try
             {
@@ -59,7 +61,15 @@ namespace ET
                 {
                     if (args.Data != null)
                     {
-                        UnityEngine.Debug.Log(args.Data);
+                        if (args.Data.Contains("run failed"))
+                        {
+                            isSuccess = false;
+                            UnityEngine.Debug.LogError(args.Data);
+                        }
+                        else
+                        {
+                            UnityEngine.Debug.Log(args.Data);
+                        }
                     }
                     else
                     {
@@ -98,6 +108,8 @@ namespace ET
             {
                 process.Close();
             }
+
+            return isSuccess;
         }
     }
 }

@@ -23,10 +23,16 @@ namespace ET
                     break;
                 case CodeMode.ClientServer:
                     genCode = $"sh gen_code_client.sh {configFolder}";
-                    ShellHelper.Run($"{genCode}", "../Tools/Luban/");
+                    if (!ShellHelper.Run($"{genCode}", "../Tools/Luban/"))
+                    {
+                        return;
+                    }
                     
                     genCode = $"sh gen_code_server.sh {configFolder}";
-                    ShellHelper.Run($"{genCode}", "../Tools/Luban/");
+                    if (!ShellHelper.Run($"{genCode}", "../Tools/Luban/"))
+                    {
+                        return;
+                    }
                     
                     genCode = $"sh gen_code_client_server.sh {configFolder}";
                     ShellHelper.Run($"{genCode}", "../Tools/Luban/");
