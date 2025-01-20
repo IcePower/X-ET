@@ -28,6 +28,8 @@ public class EntitySystemAnalyzer: DiagnosticAnalyzer
     private static ImmutableArray<ETSystemData> SupportedETSystemDatas => ImmutableArray.Create(
         new ETSystemData(Definition.EntitySystemOfAttribute, Definition.EntitySystemAttribute, Definition.EntityType,Definition.EntitySystemAttributeMetaName,
             new SystemMethodData(Definition.IAwakeInterface, Definition.AwakeMethod),
+            new SystemMethodData(Definition.IShowInterface, Definition.ShowMethod),
+            new SystemMethodData(Definition.IBeforeUnloadInterface, Definition.BeforeUnloadMethod),
             new SystemMethodData(Definition.IUpdateInterface, Definition.UpdateMethod),
             new SystemMethodData(Definition.IDestroyInterface, Definition.DestroyMethod),
             new SystemMethodData(Definition.IAddComponentInterface, Definition.AddComponentMethod),
