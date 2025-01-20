@@ -39,12 +39,12 @@ namespace ET
     }
     
     [Invoke]
-    public class GetOneConfigBytes: AInvokeHandler<ConfigLoader.GetOneConfigBytes, byte[]>
+    public class GetOneConfigBytes: AInvokeHandler<ConfigLoader.GetOneConfigBytes, ByteBuf>
     {
-        public override byte[] Handle(ConfigLoader.GetOneConfigBytes args)
+        public override ByteBuf Handle(ConfigLoader.GetOneConfigBytes args)
         {
             byte[] configBytes = File.ReadAllBytes($"../Config/Excel/s/{args.ConfigName}.bytes");
-            return configBytes;
+            return new ByteBuf(configBytes);
         }
     }
 }
