@@ -23,6 +23,7 @@ namespace ET.Client
             }
             
             self.DontDestroyOnLoad = false;
+            self.IsUsingStack = false;
         }
 
         public static void SetPanelType(this FUIEntity self, UIPanelType panelType)
