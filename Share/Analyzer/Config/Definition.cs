@@ -50,6 +50,15 @@
 
         public const string IAwakeInterface = "ET.IAwake";
         public const string AwakeMethod = "Awake";
+        
+        public const string IShowInterface = "ET.Client.IShow";
+        public const string ShowMethod = "Show";
+        
+        public const string IHideInterface = "ET.Client.IHide";
+        public const string HideMethod = "Hide";
+        
+        public const string IBeforeUnloadInterface = "ET.Client.IBeforeUnload";
+        public const string BeforeUnloadMethod = "BeforeUnload";
 
         public const string IUpdateInterface = "ET.IUpdate";
         public const string UpdateMethod = "Update";
