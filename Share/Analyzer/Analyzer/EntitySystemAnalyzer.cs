@@ -30,6 +30,7 @@ public class EntitySystemAnalyzer: DiagnosticAnalyzer
             new SystemMethodData(Definition.IAwakeInterface, Definition.AwakeMethod),
             new SystemMethodData(Definition.IShowInterface, Definition.ShowMethod),
             new SystemMethodData(Definition.IBeforeUnloadInterface, Definition.BeforeUnloadMethod),
+            new SystemMethodData(Definition.IHideInterface, Definition.HideMethod),
             new SystemMethodData(Definition.IUpdateInterface, Definition.UpdateMethod),
             new SystemMethodData(Definition.IDestroyInterface, Definition.DestroyMethod),
             new SystemMethodData(Definition.IAddComponentInterface, Definition.AddComponentMethod),
