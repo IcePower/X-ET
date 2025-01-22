@@ -129,8 +129,6 @@ namespace ET.Client
                 return;
             }
 
-            // FUIEntitySystemSingleton.Instance.Hide(fuiEntity.Component);
-
             FUIEntitySystemSingleton.Instance.BeforeUnload(fuiEntity.Component);
             if (fuiEntity.IsPreLoad)
             {
