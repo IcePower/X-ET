@@ -424,10 +424,7 @@ namespace FairyGUI
         
         public void SetUI(GComponent gComponent)
         {
-            if (_created)
-            {
-                return;
-            }
+            CloseUI();
 
             _created = true;
 
@@ -462,7 +459,9 @@ namespace FairyGUI
         {
             if (_ui != null)
             {
-                _ui.Dispose();
+                if (!_ui.isDisposed)
+                    _ui.Dispose();
+                
                 _ui = null;
             }
             _created = false;
