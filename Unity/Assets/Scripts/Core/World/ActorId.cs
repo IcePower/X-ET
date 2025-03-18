@@ -7,7 +7,7 @@ namespace ET
 {
     [MemoryPackable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public partial struct Address
+    public partial struct Address: IEquatable<Address>
     {
         [MemoryPackOrder(0)]
         public int Process;
@@ -53,7 +53,7 @@ namespace ET
     
     [MemoryPackable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public partial struct ActorId
+    public partial struct ActorId: IEquatable<ActorId>
     {
         public bool Equals(ActorId other)
         {
